@@ -11,12 +11,13 @@
                      :class="{'active': currentTab===tab.index}" @click.native="tabChange(tab.index)"></router-link>
       </ul>
     </div>
-    <el-dropdown class="drop-down">
-      <el-button type="primary">
-        {{ username }}<i class="el-icon-arrow-down el-icon--right"></i>
+    <el-dropdown @command="handleDropdownCommand" class="drop-down">
+      <el-button type="primary" @click="login">
+        {{ username === '' ? '登录' : username }}<i class="el-icon-arrow-down el-icon--right"></i>
       </el-button>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>注销</el-dropdown-item>
+        <el-dropdown-item command="r" v-if="username === ''">注册</el-dropdown-item>
+        <el-dropdown-item command="l" v-else>登出</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
     </div>
@@ -25,7 +26,8 @@
 <script>
   import { Row, Col, Menu, MenuItem, Dropdown, DropdownMenu, DropdownItem, Button } from 'element-ui'
   import ElMenuItem from 'element-ui/packages/menu/src/menu-item'
-
+  import { mapGetters, mapMutations } from 'vuex'
+  import * as mutationTypes from '../store/mutation-types'
   export default {
     name: 'TopBar',
     data () {
@@ -34,14 +36,32 @@
         tabs: [
           { title: '游戏', index: 1, path: '/game' },
           { title: '我', index: 2, path: '/me' }
-        ],
-        username: 'TestUser'
+        ]
       }
     },
     methods: {
+      ...mapMutations({
+        'clearUserinfo': mutationTypes.CLEAR_USERINFO
+      }),
       tabChange (index) {
         this.currentTab = index
+      },
+      login () {
+        if (this.$route.path !== '/login' && this.username === '') {
+          this.$router.replace('/login')
+        }
+      },
+      handleDropdownCommand (type) {
+        if (type === 'r') {
+          console.log('go to register!')
+        } else if (type === 'l') {
+          this.clearUserinfo()
+          this.$router.replace('/login')
+        }
       }
+    },
+    computed: {
+      ...mapGetters(['username'])
     },
     components: {
       ElMenuItem,
