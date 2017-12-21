@@ -53,7 +53,7 @@
       },
       handleDropdownCommand (type) {
         if (type === 'r') {
-          console.log('go to register!')
+          this.$router.replace('/register')
         } else if (type === 'l') {
           this.clearUserinfo()
           this.$router.replace('/login')

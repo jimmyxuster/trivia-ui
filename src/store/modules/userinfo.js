@@ -1,13 +1,11 @@
 import * as types from '../mutation-types'
 
 const state = {
-  username: '',
-  token: ''
+  username: ''
 }
 
 const getters = {
-  username: state => state.username,
-  token: state => state.token
+  username: state => state.username
 }
 
 const actions = {}
@@ -15,11 +13,9 @@ const actions = {}
 const mutations = {
   [types.SET_USERINFO] (state, userinfo) {
     state.username = userinfo.username || ''
-    state.token = userinfo.token || ''
   },
   [types.CLEAR_USERINFO] (state) {
     state.username = ''
-    state.token = ''
   }
 }
 

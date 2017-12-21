@@ -19,8 +19,8 @@
     </el-col>
     <el-col :span="14">
       <el-form ref="form" class="login-form" :rules="rules" :model="loginForm" label-width="80px" size="medium">
-        <el-form-item label="用户名" prop="name">
-          <el-input v-model="loginForm.name" @blur="checkAvatar"></el-input>
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="loginForm.username" @blur="checkAvatar"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" :error="loginError">
           <el-input v-model="loginForm.password"></el-input>
@@ -36,18 +36,19 @@
 <script>
   import { Form, FormItem, Input, Button, Row, Col } from 'element-ui'
   import { mapMutations } from 'vuex'
-  import * as mutationTypes from '../store/mutation-types'
+  import * as mutationTypes from '../../store/mutation-types'
+  import api from '../../service/api'
   export default {
     data () {
       return {
         loginForm: {
-          name: '',
+          username: '',
           password: ''
         },
         avatarUrl: '',
         loginError: '',
         rules: {
-          name: [
+          username: [
             { required: true, message: '请输入用户名', trigger: 'blur' },
             { min: 3, max: 10, message: '用户名长度为3-10个字符', trigger: 'blur' }
           ],
@@ -62,25 +63,29 @@
         'setUserinfo': mutationTypes.SET_USERINFO
       }),
       checkAvatar () {
-        if (this.loginForm.name === 'jimmy') {
+        if (this.loginForm.username === 'jimmy') {
           this.avatarUrl = 'https://gss2.bdstatic.com/9fo3dSag_xI4khGkpoWK1HF6hhy/baike/w%3D268%3Bg%3D0/sign=ab40ad2d31c79f3d8fe1e336829aaa2c/6a63f6246b600c33e539361a104c510fd8f9a1a4.jpg'
         } else {
           this.avatarUrl = ''
         }
       },
       login () {
-        console.log('login', this.loginForm)
         this.loginError = ''
         let loginInfo = this.loginForm
-        if (loginInfo.name !== 'jimmy' || loginInfo.password !== '12345') {
+        api.login(loginInfo).then(res => {
+          if (res.body.code === 0) {
+            this.setUserinfo({
+              username: loginInfo.username
+            })
+            console.log('login success!!!!!')
+          } else {
+            this.loginError = '用户名或密码错误'
+          }
+          console.log(res)
+        }).catch(err => {
           this.loginError = '用户名或密码错误'
-        } else {
-          // 假设登录成功
-          this.setUserinfo({
-            username: loginInfo.name,
-            token: '12345'
-          })
-        }
+          console.log('err', err)
+        })
       },
       reset () {
         this.$refs.form.resetFields()
@@ -97,7 +102,7 @@
   }
 </script>
 <style lang="scss" scoped>
-  @import "../assets/scss/common";
+  @import "../../assets/scss/common";
   .login-icon-wrapper * {
     width: 100px;
     margin: 30px auto 0 calc(100% - 120px);
