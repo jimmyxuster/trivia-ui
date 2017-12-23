@@ -45,6 +45,9 @@
       }),
       tabChange (index) {
         this.currentTab = index
+        if (index === 1) {
+          this.$router.replace('/room')
+        }
       },
       login () {
         if (this.$route.path !== '/login' && this.username === '') {

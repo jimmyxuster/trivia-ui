@@ -77,13 +77,28 @@
             this.setUserinfo({
               username: loginInfo.username
             })
-            console.log('login success!!!!!')
+            this.$message({
+              showClose: true,
+              message: '登录成功！',
+              type: 'success'
+            })
+            api.getUserInfo().then(res => {
+              if (res.body.code === 0) {
+                this.setUserinfo({
+                  username: res.body.result.username
+                })
+              }
+            })
           } else {
             this.loginError = '用户名或密码错误'
           }
           console.log(res)
         }).catch(err => {
-          this.loginError = '用户名或密码错误'
+          this.$message({
+            showClose: true,
+            message: '网络异常！',
+            type: 'error'
+          })
           console.log('err', err)
         })
       },

@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import App from '../App'
 import Login from '../views/account/Login'
 import Register from '../views/account/Register'
+import Room from '../views/RoomList'
 
 Vue.use(Router)
 
@@ -20,8 +21,13 @@ export default new Router({
     },
     {
       path: '/register',
-      name: Register,
+      name: 'Register',
       component: Register
+    },
+    {
+      path: '/room',
+      name: 'Room',
+      component: Room
     }
   ]
 })

@@ -6,6 +6,11 @@ Vue.use(VueResource)
 
 const HOST = 'http://127.0.0.1:8080'
 
+Vue.http.interceptors.push((request, next) => {
+  request.credentials = true
+  next()
+})
+
 /**
  * 调用接口
  * @param {string} apiContext
@@ -51,6 +56,55 @@ class Api {
 
   getUserInfo () {
     return callApiGet('/user')
+  }
+
+  getRooms () {
+    return new Promise((resolve) => {
+      resolve({
+        code: 0,
+        body: [
+          {
+            roomNo: '001',
+            roomStatus: 'avail',
+            players: [
+              {
+                username: 'jimmy',
+              }
+            ]
+          },
+          {
+            roomNo: '002',
+            roomStatus: 'playing',
+            players: [
+              {
+                username: 'van',
+              },
+              {
+                username: 'billy',
+              },
+              {
+                username: 'dark',
+              },
+              {
+                username: '后母',
+              }
+            ]
+          },
+          {
+            roomNo: '003',
+            roomStatus: 'avail',
+            players: [
+              {
+                username: 'van',
+              },
+              {
+                username: 'billy',
+              }
+            ]
+          },
+        ]
+      })
+    })
   }
 }
 

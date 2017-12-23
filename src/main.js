@@ -16,8 +16,10 @@ let loginStatus = 200
 
 router.beforeEach((to, from, next) => {
   if (to.path !== '/login' && to.path !== '/register') {
-    if (store.state.userinfo.username === '' || loginStatus !== 200) {
+    if (store.state.userinfo.username === '') {
       next('/login')
+    } else {
+      next()
     }
   } else {
     next()
@@ -34,7 +36,7 @@ api.getUserInfo()
     console.log('res', res)
     if (res.body.code === 0) {
       store.commit(mutationTypes.SET_USERINFO, {
-        username: res.body.username
+        username: res.body.result.username
       })
     } else {
       loginStatus = res.body.code || res.status

@@ -78,13 +78,27 @@
         let registerInfo = this.registerForm
         api.register(registerInfo).then(res => {
           if (res.body.code === 0) {
-            console.log('register success!!!!!')
+            this.$message({
+              showClose: true,
+              message: '注册成功！',
+              type: 'success'
+            })
+          } else if (res.body.code === -10011) {
+            this.registerError = '用户名已存在'
           } else {
-            this.registerError = '注册失败：' + (res.body.message || '未知原因')
+            this.$message({
+              showClose: true,
+              message: '注册失败：' + (res.body.message || '未知原因'),
+              type: 'error'
+            })
           }
           console.log(res)
         }).catch(err => {
-          this.loginError = '注册失败：网络异常'
+          this.$message({
+            showClose: true,
+            message: '注册失败：网络异常',
+            type: 'error'
+          })
           console.log('err', err)
         })
       },

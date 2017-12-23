@@ -9,9 +9,6 @@
   import TopBar from './components/TopBar'
   export default {
     name: 'app',
-    created () {
-      this.$router.replace('/login')
-    },
     components: {
       TopBar
     }
