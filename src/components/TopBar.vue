@@ -12,7 +12,7 @@
       </ul>
     </div>
     <el-dropdown @command="handleDropdownCommand" class="drop-down">
-      <el-button type="primary" @click="login">
+      <el-button :type="username === '' ? 'primary' : 'text'" @click="login" :class="{'username': username !== ''}">
         {{ username === '' ? '登录' : username }}<i class="el-icon-arrow-down el-icon--right"></i>
       </el-button>
       <el-dropdown-menu slot="dropdown">
@@ -103,6 +103,9 @@
     font-size: 30px;
     font-family: "lucida sans unicode", "lucida grande", sans-serif;
     letter-spacing: 0.8pt;
+  }
+  .username {
+    font-size: 18px;
   }
   .top-bar-container {
     margin: 0 20px;

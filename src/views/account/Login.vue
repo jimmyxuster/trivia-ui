@@ -41,6 +41,7 @@
   export default {
     data () {
       return {
+        service: '',
         loginForm: {
           username: '',
           password: ''
@@ -57,6 +58,9 @@
           ]
         }
       }
+    },
+    created () {
+      this.service = this.$route.query.service || ''
     },
     methods: {
       ...mapMutations({
@@ -87,6 +91,7 @@
                 this.setUserinfo({
                   username: res.body.result.username
                 })
+                this.$router.replace(`/${this.service || 'room'}`)
               }
             })
           } else {

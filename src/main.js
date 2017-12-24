@@ -17,7 +17,7 @@ let loginStatus = 200
 router.beforeEach((to, from, next) => {
   if (to.path !== '/login' && to.path !== '/register') {
     if (store.state.userinfo.username === '') {
-      next('/login')
+      next(`/login?service=${to.path.substring(1)}`)
     } else {
       next()
     }

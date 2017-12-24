@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <top-bar></top-bar>
-    <router-view></router-view>
+    <top-bar class="top-bar"></top-bar>
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -15,6 +17,14 @@
   }
 </script>
 
-<style>
-
+<style scoped>
+  .top-bar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  .content {
+    margin-top: 80px;
+  }
 </style>

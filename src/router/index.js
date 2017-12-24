@@ -4,6 +4,7 @@ import App from '../App'
 import Login from '../views/account/Login'
 import Register from '../views/account/Register'
 import Room from '../views/RoomList'
+import GameView from '../views/GameView'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/room',
       name: 'Room',
       component: Room
+    },
+    {
+      path: '/gameview',
+      name: 'GameView',
+      component: GameView
     }
   ]
 })
