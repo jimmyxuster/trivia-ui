@@ -28,8 +28,6 @@
 </template>
 <script>
   import { Button, Dialog, Input, FormItem, Form } from 'element-ui'
-  import { mapMutations } from 'vuex'
-  import * as mutationTypes from '../store/mutation-types'
   import Room from '../components/Room'
   import api from '../service/api'
   export default {
@@ -46,9 +44,6 @@
       this.refreshRoom()
     },
     methods: {
-      ...mapMutations({
-        'enterGame': mutationTypes.ENTER_GAME
-      }),
       refreshRoom () {
         let vm = this
         this.isLoading = true
@@ -109,7 +104,6 @@
         let data = { roomNo: roomNo }
         api.enterRoom(data).then(res => {
           if (res.body.code === 0) {
-            this.enterGame()
             this.$router.replace('/gameview')
           } else {
             this.$message({

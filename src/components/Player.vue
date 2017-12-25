@@ -1,7 +1,7 @@
 <template>
-  <el-card class="player">
+  <el-card class="player" :body-style="{ padding: '10px' }">
     <img :src="avatarUrl" v-if="avatarUrl" class="avatar">
-    <img src="../assets/img/default_user.png" class="avatar" v-else>
+    <img src="../assets/img/default_user_xmas.png" class="avatar" v-else>
     <span v-text="username" class="username"></span>
   </el-card>
 </template>
@@ -33,5 +33,8 @@
     margin: 5px 0;
     text-align: center;
     font-size: 16px;
+  }
+  .player {
+    box-shadow: none;
   }
 </style>

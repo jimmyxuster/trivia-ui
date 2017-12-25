@@ -10,7 +10,7 @@
         <el-tooltip v-if="players[i-1]" class="item" effect="dark" :key="i-1"
                     :content="players[i-1].username || '未知用户'" :placement="i-1 < 2 ? 'top' : 'bottom'">
           <img v-if="players[i-1].avatarUrl" :src="players[i-1].avatarUrl">
-          <img src="../assets/img/default_user.png" v-else>
+          <img src="../assets/img/default_user_xmas.png" v-else>
         </el-tooltip>
       </div>
     </div>
