@@ -3,13 +3,13 @@
     <el-row :gutter="20">
       <el-col :offset="11" :span="2">
         <player class="player horizontal" v-if="players[0]" :avatarUrl="players[0].avatarUrl || ''" :username="players[0].username || ''"
-          chat-placement="right" :chat-content="players[0].chatContent"></player>
+          chat-placement="right" :chat-content="players[0].chatContent" :index="0" :active="players[0].active"></player>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="2"  class="side">
         <player class="player" v-if="players[1]" :avatarUrl="players[1].avatarUrl || ''" :username="players[1].username || ''"
-                chat-placement="right" :chat-content="players[1].chatContent"></player>
+                chat-placement="right" :chat-content="players[1].chatContent" :index="1" :active="players[1].active"></player>
       </el-col>
       <el-col :span="20">
         <div class="game-area">
@@ -18,13 +18,13 @@
       </el-col>
       <el-col :span="2"  class="side">
         <player class="player" v-if="players[2]" :avatarUrl="players[2].avatarUrl || ''" :username="players[2].username || ''"
-                chat-placement="left" :chat-content="players[2].chatContent"></player>
+                chat-placement="left" :chat-content="players[2].chatContent" :index="2" :active="players[2].active"></player>
       </el-col>
     </el-row>
     <el-row :gutter="20">
       <el-col :offset="11" :span="2">
         <player class="player" v-if="players[3]" :avatarUrl="players[3].avatarUrl || ''" :username="players[3].username || ''"
-                chat-placement="right" :chat-content="players[3].chatContent"></player>
+                chat-placement="right" :chat-content="players[3].chatContent" :index="3" :active="players[3].active"></player>
       </el-col>
     </el-row>
   </div>
@@ -39,10 +39,10 @@
     data () {
       return {
         players: [
-          { avatarUrl: '', username: 'user1', chatContent: 'hahaha', position: 0 },
-          { avatarUrl: '', username: 'user2', chatContent: '', position: 0 },
-          { avatarUrl: '', username: 'user3', chatContent: '', position: 0 },
-          { avatarUrl: '', username: 'user4', chatContent: '', position: 0 }
+          { avatarUrl: '', username: 'user1', chatContent: '', position: 0, active: true },
+          { avatarUrl: '', username: 'user2', chatContent: '', position: 0, active: false },
+          { avatarUrl: '', username: 'user3', chatContent: '', position: 0, active: false },
+          { avatarUrl: '', username: 'user4', chatContent: '', position: 0, active: false }
         ],
         boardHeight: 0
       }

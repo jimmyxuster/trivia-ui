@@ -8,9 +8,12 @@
       :value="chatContent.length > 0"
       :content="chatContent">
     </el-popover>
-    <el-card class="player" :body-style="{ padding: '10px' }" v-popover:chatbox>
-      <img :src="avatarUrl" v-if="avatarUrl" class="avatar">
-      <img src="../assets/img/default_user_xmas.png" class="avatar" v-else>
+    <el-card class="player" :class="{'highlight-player': active}" :body-style="{ padding: '10px' }" v-popover:chatbox>
+      <div class="avatar">
+        <img :src="avatarUrl" v-if="avatarUrl">
+        <img src="../assets/img/default_user_xmas.png" v-else>
+        <img :src="pinUrl[index]" class="pin">
+      </div>
       <span v-text="username" class="username"></span>
     </el-card>
   </div>
@@ -19,10 +22,11 @@
   import { Card, Popover } from 'element-ui'
   export default {
     data () {
-      return {}
+      return {
+        'pinUrl': ['/static/pin1.png', '/static/pin2.png', ' /static/pin3.png', '/static/pin4.png']
+      }
     },
     mounted () {
-      console.log('chatbox', this.$refs.chatbox)
       let vm = this
       setTimeout(() => {
         vm.$refs.chatbox.updatePopper()
@@ -32,7 +36,9 @@
       'avatarUrl': { type: String, default: '' },
       'username': { type: String, default: '' },
       'chatPlacement': { type: String, default: 'top' },
-      'chatContent': { type: String, default: '' }
+      'chatContent': { type: String, default: '' },
+      'index': { type: Number, default: 0 },
+      'active': { type: Boolean, default: false }
     },
     components: {
       'el-card': Card,
@@ -40,10 +46,14 @@
     }
   }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+  @import "../assets/scss/common";
   .avatar {
-    display: block;
-    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .avatar img:first-child {
     width: 50%;
   }
   .username {
@@ -56,5 +66,19 @@
   }
   .player {
     box-shadow: none;
+  }
+  .pin {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+  }
+  .highlight-player {
+    animation: highlight 2s linear 0s infinite;
+  }
+  @keyframes highlight {
+    0% { box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) }
+    50% { box-shadow: 0 4px 20px 0 $trivia-blue }
+    100% { box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) }
   }
 </style>

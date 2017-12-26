@@ -1,5 +1,5 @@
 <template>
-  <el-card :body-style="{ padding: '10px' }">
+  <el-card :body-style="{ padding: '10px' }" :class="{'highlight': highlight}">
     <img :src="'/static/' + (index + 1) + '.png'" class="image">
     <div style="height: 30px; padding-top: 10px;" class="pin-wrapper">
       <template v-if="persons.length > 0">
@@ -15,12 +15,13 @@
     name: 'square',
     data () {
       return {
-        'pinUrl': ['/static/pin1.png', '/static/pin2.png', ' /static/pin3.png', '/static/pin4.png']
+        'pinUrl': ['/static/pin1.png', '/static/pin2.png', '/static/pin3.png', '/static/pin4.png']
       }
     },
     props: {
       'index': { type: Number, default: 0 },
-      'persons': { type: Array, default: () => [] }
+      'persons': { type: Array, default: () => [] },
+      'highlight': { type: Boolean, default: true }
     },
     components: {
       'el-card': Card
@@ -33,6 +34,9 @@
     height: 80px;
     display: block;
     margin: 0 auto;
+  }
+  .highlight {
+    animation: highlight 2s ease-in-out 0s infinite;
   }
   span {
     display: block;
@@ -60,5 +64,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+  }
+  @keyframes highlight {
+    0% { background-color: #ffffff; }
+    50% { background-color: #aa909399; }
+    100% { background-color: #ffffff; }
   }
 </style>
