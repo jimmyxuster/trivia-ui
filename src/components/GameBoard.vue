@@ -7,7 +7,7 @@
     </el-row>
     <el-row :gutter="20">
       <el-col :span="3">
-        <square v-for="j in 3" :index="8 + (j - 1) * 2" :key="8 + (j - 1) * 2" class="square-side"></square>
+        <square v-for="j in 3" :index="8 + (j - 1) * 2" :key="8 + (j - 1) * 2" :person="1" class="square-side"></square>
       </el-col>
       <el-col :span="18" class="center">
       </el-col>

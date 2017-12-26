@@ -1,12 +1,6 @@
 <template>
   <div class="outer">
     <div class="group" ref="cube" @click="randomCube">
-      <!--<span class="page page1">&middot;</span>-->
-      <!--<span class="page page2">&middot;&middot;</span>-->
-      <!--<span class="page page3">&middot;&middot;&middot;</span>-->
-      <!--<span class="page page4">&middot;&middot;<br>&middot;&middot;</span>-->
-      <!--<span class="page page5">&middot;&middot;<br>&middot;<br>&middot;&middot;</span>-->
-      <!--<span class="page page6">&middot;&middot;&middot;<br>&middot;&middot;&middot;</span>-->
       <div class="page page1">
         <div class="first_face">
           <span class="pip"></span>

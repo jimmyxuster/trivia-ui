@@ -6,7 +6,7 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="2" :style="{'height': boardHeight + 'px'}" class="side">
+      <el-col :span="2"  class="side">
         <player class="player" v-if="players[1]" :avatarUrl="players[1].avatarUrl || ''" :username="players[1].username || ''"></player>
       </el-col>
       <el-col :span="20">
@@ -14,7 +14,7 @@
           <game-board></game-board>
         </div>
       </el-col>
-      <el-col :span="2" :style="{'height': boardHeight + 'px'}" class="side">
+      <el-col :span="2"  class="side">
         <player class="player" v-if="players[2]" :avatarUrl="players[2].avatarUrl || ''" :username="players[2].username || ''"></player>
       </el-col>
     </el-row>
@@ -58,7 +58,7 @@
       let vm = this
       setTimeout(() => {
         vm.calcPlayerDisplayPosition()
-      }, 50)
+      }, 100)
     },
     destroyed () {
       this.quitGame()
@@ -87,6 +87,7 @@
   }
   .side {
     display: flex;
+    height: 740px;
     align-items: center;
     margin-top: 15px;
   }
