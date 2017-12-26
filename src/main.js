@@ -11,6 +11,18 @@ import api from './service/api'
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
+Vue.prototype.indexOfArray = (arr, obj) => {
+  let result = []
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === obj) {
+      result.push(i)
+    }
+  }
+  if (result.length > 0) {
+    console.log(result)
+  }
+  return result
+}
 
 let loginStatus = 200
 
