@@ -13,7 +13,7 @@
       </el-col>
       <el-col :span="20">
         <div class="game-area">
-          <game-board :players="playerPositions"></game-board>
+          <game-board :players="playerPositions" :diceNumber="diceNumber"></game-board>
         </div>
       </el-col>
       <el-col :span="2"  class="side">
@@ -44,20 +44,48 @@
           { avatarUrl: '', username: 'user3', chatContent: '', position: 0, active: false },
           { avatarUrl: '', username: 'user4', chatContent: '', position: 0, active: false }
         ],
-        boardHeight: 0
+        boardHeight: 0,
+        diceNumber: 1
       }
     },
     methods: {
       ...mapMutations({
         'enterGame': mutationTypes.ENTER_GAME,
         'quitGame': mutationTypes.QUIT_GAME
-      })
+      }),
+      movePlayer (index, nextPosition) {
+        let vm = this
+        let duration = 400 * ((nextPosition - vm.players[index].position + 22) % 22)
+        /* eslint-disable */
+        let animate = () => {
+          if (TWEEN.update()) {
+            requestAnimationFrame(animate)
+          }
+        }
+
+        let tween = new TWEEN.Tween({ tweeningNumber: vm.players[index].position })
+        .easing(TWEEN.Easing.Linear.None)
+        .to({ tweeningNumber: nextPosition }, duration)
+        .onUpdate(function () {
+          vm.players[index].position = Number.parseInt(this.tweeningNumber.toFixed(0))
+        })
+        vm.diceNumber = nextPosition - vm.players[index].position
+        setTimeout(() => {
+          tween.start()
+          animate()
+        }, 2000)
+      }
+    },
+    mounted () {
+      let vm = this
+      setTimeout(() => {
+        vm.movePlayer(0, 5)
+      }, 1000)
     },
     computed: {
       playerPositions () {
         let result = []
         this.players.forEach(player => result.push(player.position))
-        console.log('result', result)
         return result
       }
     },

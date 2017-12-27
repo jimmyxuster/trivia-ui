@@ -23,7 +23,7 @@
                 :highlight="indexOfArray(indexOfArray(players, 19 - i), activePlayer).length > 0"></square>
       </el-col>
     </el-row>
-    <dice class="dice"></dice>
+    <dice class="dice" :number="diceNumber"></dice>
   </div>
 </template>
 <script>
@@ -37,7 +37,8 @@
     },
     props: {
       'players': { type: Array, default: [] },
-      'activePlayer': { type: Number, default: 0 }
+      'activePlayer': { type: Number, default: 0 },
+      'diceNumber': { type: Number, default: 1 }
     },
     components: {
       Square,

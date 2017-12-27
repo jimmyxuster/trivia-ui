@@ -1,6 +1,6 @@
 <template>
   <div class="outer">
-    <div class="group" ref="cube" @click="randomCube">
+    <div class="group" ref="cube" @click="randomCube(2)">
       <div class="page page1">
         <div class="first_face">
           <span class="pip"></span>
@@ -67,13 +67,28 @@
   export default {
     name: 'dice',
     data () {
-      return {}
+      return {
+        rotateDegrees: {
+          x: [0, 0, 0, -90, 90, 180],
+          y: [0, 90, -90, 0, 0, 0],
+          z: [0, 0, 0, 0, 0, 0]
+        }
+      }
+    },
+    props: {
+      'number': { type: Number, default: 1 }
+    },
+    watch: {
+      number (val) {
+        this.randomCube(val)
+      }
     },
     methods: {
-      randomCube () {
+      randomCube (number) {
         let cube = this.$refs.cube
         cube.style.transition = '2s all ease-in-out'
-        cube.style.transform = 'rotatex(' + this.getRandom(7000, 14000) + 'deg) rotatey(' + this.getRandom(7000, 14000) +
+        cube.style.transform = 'rotatex(' + (this.getRandom(7000, 14000) + this.rotateDegrees.x[number - 1]) +
+          'deg) rotatey(' + (this.getRandom(7000, 14000) + this.rotateDegrees.y[number - 1]) +
           'deg) rotatez(' + this.getRandom(7000, 14000) + 'deg)scale3d(1,1,1)'
         setTimeout(() => {
           cube.style.transition = 'none'
@@ -81,7 +96,7 @@
       },
       getRandom (min, max) {
         let num = Math.floor(Math.random() * (max - min) + min)
-        return num - num % 90 + 5
+        return num - num % 360 + 5
       }
     }
   }

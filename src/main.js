@@ -18,9 +18,6 @@ Vue.prototype.indexOfArray = (arr, obj) => {
       result.push(i)
     }
   }
-  if (result.length > 0) {
-    console.log(result)
-  }
   return result
 }
 
