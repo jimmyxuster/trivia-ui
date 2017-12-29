@@ -42,7 +42,7 @@ api.getUserInfo()
     return err
   })
   .then(res => {
-    console.log('res', res)
+    // console.log('res', res)
     if (res.body.code === 0) {
       store.commit(mutationTypes.SET_USERINFO, {
         username: res.body.result.username

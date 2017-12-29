@@ -27,6 +27,7 @@
                 chat-placement="right" :chat-content="players[3].chatContent" :index="3" :active="players[3].active"></player>
       </el-col>
     </el-row>
+    <chat-box class="chat-box" @uploadChatItem="uploadChatItem" :success.sync="chatUploadSuccess"></chat-box>
   </div>
 </template>
 <script>
@@ -35,6 +36,7 @@
   import Player from '../components/Player'
   import { Row, Col } from 'element-ui'
   import GameBoard from '../components/GameBoard'
+  import ChatBox from '../components/ChatBox'
   export default {
     data () {
       return {
@@ -45,7 +47,8 @@
           { avatarUrl: '', username: 'user4', chatContent: '', position: 0, active: false }
         ],
         boardHeight: 0,
-        diceNumber: 1
+        diceNumber: 1,
+        chatUploadSuccess: true
       }
     },
     methods: {
@@ -74,6 +77,12 @@
           tween.start()
           animate()
         }, 2000)
+      },
+      uploadChatItem (chatItem) {
+        let vm = this
+        setTimeout(() => {
+          vm.chatUploadSuccess = true
+        }, 1000)
       }
     },
     mounted () {
@@ -96,6 +105,7 @@
       this.enterGame()
     },
     components: {
+      ChatBox,
       GameBoard,
       Player,
       'el-row': Row,
@@ -119,5 +129,11 @@
     height: 740px;
     align-items: center;
     margin-top: 15px;
+  }
+  .chat-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 300px;
   }
 </style>
