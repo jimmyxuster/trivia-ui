@@ -2,8 +2,8 @@
   <el-card>
     <div slot="header" class="clearfix">
       <span v-text="roomNo"></span>
-      <el-button style="float: right; padding: 3px 0" type="text" v-text="roomStatus === 'avail' ? '进入房间' : '游戏中'"
-        :disabled="roomStatus !== 'avail'" @click.native="enterRoom"></el-button>
+      <el-button style="float: right; padding: 3px 0" type="text" v-text="roomStatus === 'Avail' ? '进入房间' : '游戏中'"
+        :disabled="roomStatus !== 'Avail'" @click.native="enterRoom"></el-button>
     </div>
     <div class="room-users">
       <div v-for="i in 4" class="user" :class="{'placeholder': !players[i-1]}">
@@ -24,7 +24,7 @@
       return {}
     },
     props: {
-      roomNo: { type: String, default: '' },
+      roomNo: { type: Number, default: '' },
       roomStatus: { type: String, default: 'avail' },
       players: { type: Array, default: [] }
     },

@@ -40,6 +40,7 @@
   export default {
     data () {
       return {
+        id: -1,
         players: [
           { avatarUrl: '', username: 'user1', chatContent: '', position: 0, active: true },
           { avatarUrl: '', username: 'user2', chatContent: '', position: 0, active: false },
@@ -48,7 +49,8 @@
         ],
         boardHeight: 0,
         diceNumber: 1,
-        chatUploadSuccess: true
+        chatUploadSuccess: true,
+        sock: null
       }
     },
     methods: {
@@ -83,6 +85,9 @@
         setTimeout(() => {
           vm.chatUploadSuccess = true
         }, 1000)
+      },
+      handleMessage (msg) {
+
       }
     },
     mounted () {
@@ -102,7 +107,32 @@
       this.quitGame()
     },
     created () {
+      this.id = this.$route.params.id
+      if (!this.id) {
+        console.log('get room id fail')
+        this.$router.replace('/room')
+        return
+      }
       this.enterGame()
+      let webSocket = new WebSocket('ws://localhost:8080/websocket');
+
+      webSocket.onerror = function(event) {
+        console.log('err', event)
+        this.$message({
+          message: '网络连接异常！',
+          type: 'error'
+        })
+      }
+
+      webSocket.onopen = function(event) {
+        console.log('open')
+        webSocket.send(JSON.stringify({ type: 'answer', choice: 'A' }))
+      }
+
+      webSocket.onmessage = function(event) {
+        console.log('message', event.data)
+        this.handleMessage(event.data)
+      }
     },
     components: {
       ChatBox,

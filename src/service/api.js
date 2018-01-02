@@ -59,67 +59,11 @@ class Api {
   }
 
   createRoom (data) {
-    return new Promise((resolve) => {
-      resolve({
-        status: 200,
-        body: {
-          code: 1,
-          message: '房间已经存在'
-        }
-      })
-    })
+    return callApiPost('/game/room', data)
   }
 
   getRooms () {
-    return new Promise((resolve) => {
-      resolve({
-        status: 200,
-        body: {
-          code: 0,
-          result: [
-            {
-              roomNo: '001',
-              roomStatus: 'avail',
-              players: [
-                {
-                  username: 'jimmy',
-                }
-              ]
-            },
-            {
-              roomNo: '002',
-              roomStatus: 'playing',
-              players: [
-                {
-                  username: 'van',
-                },
-                {
-                  username: 'billy',
-                },
-                {
-                  username: 'dark',
-                },
-                {
-                  username: '后母',
-                }
-              ]
-            },
-            {
-              roomNo: '003',
-              roomStatus: 'avail',
-              players: [
-                {
-                  username: 'van',
-                },
-                {
-                  username: 'billy',
-                }
-              ]
-            },
-          ]
-        }
-      })
-    })
+    return callApiGet('/game/room')
   }
 
   enterRoom (data) {
