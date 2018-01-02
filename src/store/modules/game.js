@@ -1,11 +1,13 @@
 import * as types from '../mutation-types'
 
 const state = {
-  gameState: 'none'
+  gameState: 'none',
+  socket: null
 }
 
 const getters = {
-  gameState: state => state.gameState
+  gameState: state => state.gameState,
+  socket: state => state.socket
 }
 
 const actions = {}
@@ -16,6 +18,19 @@ const mutations = {
   },
   [types.QUIT_GAME] (state) {
     state.gameState = 'none'
+    if (state.socket && (state.socket.readyState === WebSocket.CONNECTING ||
+        state.socket.readyState === WebSocket.OPEN)) {
+      state.socket.close()
+      state.socket = null
+    }
+  },
+  [types.SET_SOCKET] (state, socket) {
+    if (state.socket && (state.socket.readyState === WebSocket.CONNECTING ||
+        state.socket.readyState === WebSocket.OPEN)) {
+      state.socket.close()
+      state.socket = null
+    }
+    state.socket = socket
   }
 }
 

@@ -27,6 +27,8 @@ router.beforeEach((to, from, next) => {
   if (to.path !== '/login' && to.path !== '/register') {
     if (store.state.userinfo.username === '') {
       next(`/login?service=${to.path.substring(1)}`)
+    } else if (from.name === 'GameView') {
+      next(false)
     } else {
       next()
     }

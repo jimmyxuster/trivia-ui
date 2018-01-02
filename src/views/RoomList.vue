@@ -118,7 +118,7 @@
         if (!roomName) return
         this.$router.replace({
           name: 'GameView',
-          params: {
+          query: {
             id: roomName
           }
         })
