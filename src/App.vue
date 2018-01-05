@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <top-bar class="top-bar"></top-bar>
-    <div class="content">
+    <div class="content" v-fill>
       <router-view></router-view>
     </div>
   </div>
@@ -13,6 +13,13 @@
     name: 'app',
     components: {
       TopBar
+    },
+    directives: {
+      fill: {
+        inserted (el) {
+          el.style.height = window.innerHeight + 'px'
+        }
+      }
     }
   }
 </script>
@@ -25,6 +32,7 @@
     width: 100%;
   }
   .content {
-    margin-top: 80px;
+    box-sizing: border-box;
+   padding-top: 80px;
   }
 </style>

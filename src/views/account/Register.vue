@@ -19,7 +19,7 @@
           <el-input v-model="registerForm.username"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" :error="registerError">
-          <el-input v-model="registerForm.password"></el-input>
+          <el-input v-model="registerForm.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="register">注册</el-button>
@@ -118,7 +118,7 @@
     }
   }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   @import "../../assets/scss/common";
   $avatar-width: 140px;
   .register-form {

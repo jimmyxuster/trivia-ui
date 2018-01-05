@@ -23,7 +23,7 @@
           <el-input v-model="loginForm.username" @blur="checkAvatar"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password" :error="loginError">
-          <el-input v-model="loginForm.password"></el-input>
+          <el-input v-model="loginForm.password" type="password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="login">登录</el-button>
@@ -89,7 +89,10 @@
             api.getUserInfo().then(res => {
               if (res.body.code === 0) {
                 this.setUserinfo({
-                  username: res.body.result.username
+                  username: res.body.result.username,
+                  winCount: res.body.result.winCount,
+                  totalPlay: res.body.result.totalPlay,
+                  avatarUrl: res.body.result.avatarUrl
                 })
                 this.$router.replace(`/${this.service || 'room'}`)
               }

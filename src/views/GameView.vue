@@ -2,12 +2,14 @@
   <div class="game-view">
     <div>
         <player class="player horizontal" v-if="players[1]" :avatarUrl="players[1].avatarUrl || ''" :username="players[1].username || ''" :state="status"
-          chat-placement="right" :ready="players[1].isReady" :chat-content="players[1].chatContent" :index="1" :active="players[1].active"></player>
+          chat-placement="right" :ready="players[1].isReady" :chat-content="players[1].chatContent"
+                :coin="players[1].coinCount" :index="1" :active="players[1].active"></player>
     </div>
     <el-row :gutter="20">
       <el-col :span="2"  class="side">
         <player class="player" v-if="players[2]" :avatarUrl="players[2].avatarUrl || ''" :username="players[2].username || ''" :state="status"
-                chat-placement="right" :ready="players[2].isReady" :chat-content="players[2].chatContent" :index="2" :active="players[2].active"></player>
+                chat-placement="right" :ready="players[2].isReady" :chat-content="players[2].chatContent"
+                :coin="players[2].coinCount" :index="2" :active="players[2].active"></player>
       </el-col>
       <el-col :span="20">
         <div class="game-area">
@@ -17,12 +19,14 @@
       </el-col>
       <el-col :span="2"  class="side">
         <player class="player" v-if="players[3]" :avatarUrl="players[3].avatarUrl || ''" :username="players[3].username || ''" :state="status"
-                chat-placement="left" :ready="players[3].isReady" :chat-content="players[3].chatContent" :index="3" :active="players[3].active"></player>
+                chat-placement="left" :ready="players[3].isReady" :chat-content="players[3].chatContent"
+                :coin="players[3].coinCount" :index="3" :active="players[3].active"></player>
       </el-col>
     </el-row>
     <div>
         <player class="player" v-if="players[0]" :avatarUrl="players[0].avatarUrl || ''" :username="players[0].username || ''" :state="status"
-                chat-placement="right" :ready="players[0].isReady" :chat-content="players[0].chatContent || ''" :index="0" :active="players[0].active"></player>
+                chat-placement="right" :ready="players[0].isReady" :chat-content="players[0].chatContent || ''"
+                :coin="players[0].coinCount" :index="0" :active="players[0].active"></player>
     </div>
     <chat-box class="chat-box" @uploadChatItem="uploadChatItem" :success.sync="chatUploadSuccess"></chat-box>
     <question :question="question" :visible="questionVisible" :answerable="answerable" :answer="madeAnswer" :correct-answer="correctAnswer" @answer="makeAnswer"></question>

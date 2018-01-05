@@ -17,8 +17,14 @@
       <span v-text="username" class="username"></span>
     </el-card>
     <el-tag class="ready-right" type="success" v-if="index < 2 && ready && state === 'Avail'">准备</el-tag>
+    <div class="ready-right" v-if="index < 2 && ready && state === 'playing'">
+      <img src="/static/coin.png" class="coin"><span v-text="coinCount"></span>
+    </div>
     <div class="ready-bottom">
       <el-tag type="success" v-if="index >= 2 && ready && state === 'Avail'">准备</el-tag>
+    </div>
+    <div class="ready-bottom" v-if="index >= 2 && ready && state === 'playing'">
+      <img src="/static/coin.png" class="coin"><span v-text="coinCount"></span>
     </div>
   </div>
 </template>
@@ -44,7 +50,8 @@
       'index': { type: Number, default: 0 },
       'active': { type: Boolean, default: false },
       'ready': { type: Boolean, default: false },
-      'state': { type: String, default: '' }
+      'state': { type: String, default: '' },
+      'coinCount': { type: Number, default: '' }
     },
     components: {
       'el-card': Card,
@@ -97,6 +104,10 @@
     margin-top: 10px;
     display: flex;
     justify-content: center;
+  }
+  .coin {
+    vertical-align: middle;
+    width: 20px;
   }
   @keyframes highlight {
     0% { box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) }

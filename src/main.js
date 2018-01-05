@@ -51,7 +51,10 @@ api.getUserInfo()
     // console.log('res', res)
     if (res.body.code === 0) {
       store.commit(mutationTypes.SET_USERINFO, {
-        username: res.body.result.username
+        username: res.body.result.username,
+        winCount: res.body.result.winCount,
+        totalPlay: res.body.result.totalPlay,
+        avatarUrl: res.body.result.avatarUrl
       })
     } else {
       loginStatus = res.body.code || res.status

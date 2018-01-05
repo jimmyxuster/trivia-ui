@@ -41,6 +41,10 @@ const callApiGet = function (apiContext, data, option = {})/* : Promise */ {
   return callApi(apiContext, 'get', data, option)
 }
 
+const callApiPut = function (apiContext, data, option = {})/* : Promise */ {
+  return callApi(apiContext, 'put', data, option)
+}
+
 class Api {
   login (data) {
     return callApiPost('/login', data)
@@ -75,6 +79,10 @@ class Api {
         }
       })
     })
+  }
+
+  changePwd (data) {
+    return callApiPut('/user', data)
   }
 }
 

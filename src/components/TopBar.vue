@@ -31,6 +31,7 @@
   import ElMenuItem from 'element-ui/packages/menu/src/menu-item'
   import { mapGetters, mapMutations } from 'vuex'
   import * as mutationTypes from '../store/mutation-types'
+  import api from '../service/api'
   export default {
     name: 'TopBar',
     data () {
@@ -61,8 +62,12 @@
         if (type === 'r') {
           this.$router.replace('/register')
         } else if (type === 'l') {
-          this.clearUserinfo()
-          this.$router.replace('/login')
+          api.logout().then(() => {
+            this.clearUserinfo()
+            this.$router.replace('/login')
+          }).catch(err => {
+            console.log('err', err)
+          })
         }
       }
     },
