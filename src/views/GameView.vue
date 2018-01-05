@@ -68,7 +68,9 @@
         diceClickable: false,
         diceAutoGo: false,
         gameResults: [],
-        gameOver: false
+        gameOver: false,
+        diceRunning: false,
+        pendingMsg: {}
       }
     },
     methods: {
@@ -133,6 +135,7 @@
       },
       diceStart () {
         this.diceClickable = false
+        this.diceRunning = true
         if (this.activePlayer && this.activePlayer.username === this.username) {
           this.socketSend({type: 'diceGo'})
         }
@@ -142,7 +145,19 @@
         this.diceAutoGo = false
         let goPlayer = this.players.find(p => p.active)
         if (!goPlayer) return
-        this.movePlayer(this.players.indexOf(goPlayer), goPlayer.position + this.diceNumber)
+        if (this.question) {
+          this.movePlayer(this.players.indexOf(goPlayer), goPlayer.position + this.diceNumber)
+        } else {
+          this.showMessage('玩家 ' + this.activePlayer.username + ' 被关禁闭', 'warning')
+          if (this.activePlayer.username === this.username) {
+            this.socketSend({type: 'takeTurn'})
+          }
+        }
+        this.diceRunning = false
+        if (this.pendingMsg.type) {
+          this.handleTakeTurn(this.pendingMsg)
+          this.pendingMsg = {}
+        }
       },
       socketSend (msg) {
         if (this.socket && this.socket.readyState < WebSocket.CLOSING) {
@@ -154,15 +169,19 @@
       },
       setActive (username) {
         for (let i = 0; i < this.players.length; i++) {
-          if (this.players[i].username === username) {
-            this.players[i].active = true
-          } else {
-            this.players[i].active = false
-          }
+          this.players[i].active = this.players[i].username === username;
         }
       },
       getActiveUserIndex () {
         return this.players.indexOf(this.players.find(p => p.active))
+      },
+      handleTakeTurn (msg) {
+        let vm = this
+        vm.diceNumber = msg.body.rollNum
+        vm.setActive(msg.body.next)
+        vm.question = msg.body.question
+        vm.diceAutoGo = false
+        vm.diceClickable = msg.body.next === vm.username
       },
       handleMessage (msg) {
         let vm = this
@@ -194,11 +213,11 @@
             Vue.set(vm.players.find(p => p.username === msg.body.players[i].user.username), 'position', msg.body.players[i].position)
           }
         } else if (msg.type === 'takeTurn') {
-          vm.diceNumber = msg.body.rollNum
-          vm.setActive(msg.body.next)
-          vm.question = msg.body.question
-          vm.diceAutoGo = false
-          vm.diceClickable = msg.body.next === vm.username;
+          if (vm.diceRunning) {
+            vm.pendingMsg = msg
+          } else {
+            vm.handleTakeTurn(msg)
+          }
         } else if (msg.type === 'answer') {
           vm.correctAnswer = msg.body.key
           vm.madeAnswer = msg.body.chosen
@@ -211,6 +230,7 @@
           let goPlayer = vm.players.find(p => p.active)
           if (!goPlayer) return
           if (goPlayer.username !== vm.username) {
+            vm.diceRunning = true
             vm.diceAutoGo = true
           }
         } else if (msg.type === 'gameOver') {

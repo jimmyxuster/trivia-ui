@@ -23,7 +23,6 @@ const getters = {
 
 const actions = {
   quitGame ({ state, commit, rootState }) {
-    state.gameState = 'none'
     commit(types.QUIT_GAME)
     if (state.socket && (state.socket.readyState === WebSocket.CONNECTING ||
         state.socket.readyState === WebSocket.OPEN)) {

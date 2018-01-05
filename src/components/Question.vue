@@ -4,16 +4,16 @@
       <span v-text="questionDisplay.description"></span>
       <el-menu @select="selectAnswer" class="options">
         <el-menu-item index="A">
-          <span slot="title" :class="{'correct': correctAnswer === 'A' && correctAnswer !== form.answer, 'chosen': answer === 'A'}" v-text="'A：' + questionDisplay.optionA"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'A' && correctAnswer !== form.answer, 'chosen': answer === 'A'}" v-text="'A：' + questionDisplay.optionA"></span>
         </el-menu-item>
         <el-menu-item index="B">
-          <span slot="title" :class="{'correct': correctAnswer === 'B' && correctAnswer !== form.answer, 'chosen': answer === 'B'}" v-text="'B：' + questionDisplay.optionB"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'B' && correctAnswer !== form.answer, 'chosen': answer === 'B'}" v-text="'B：' + questionDisplay.optionB"></span>
         </el-menu-item>
         <el-menu-item index="C">
-          <span slot="title" :class="{'correct': correctAnswer === 'C' && correctAnswer !== form.answer, 'chosen': answer === 'C'}" v-text="'C：' + questionDisplay.optionC"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'C' && correctAnswer !== form.answer, 'chosen': answer === 'C'}" v-text="'C：' + questionDisplay.optionC"></span>
         </el-menu-item>
         <el-menu-item index="D">
-          <span slot="title" :class="{'correct': correctAnswer === 'D' && correctAnswer !== form.answer, 'chosen': answer === 'D'}" v-text="'D：' + questionDisplay.optionD"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'D' && correctAnswer !== form.answer, 'chosen': answer === 'D'}" v-text="'D：' + questionDisplay.optionD"></span>
         </el-menu-item>
       </el-menu>
     </el-form>
@@ -32,7 +32,7 @@
         form: {
           answer: ''
         },
-        questionDisplay: null,
+        questionDisplay: {},
         questionTimeout: -1
       }
     },
@@ -48,7 +48,10 @@
         this.form.answer = val
       },
       question (q) {
-        if (!this.questionDisplay) {
+        if (!q) {
+          q = {}
+        }
+        if (!this.questionDisplay || !this.questionDisplay.description) {
           this.questionDisplay = q
         } else {
           let vm = this
@@ -58,7 +61,7 @@
           vm.questionTimeout = setTimeout(() => {
             vm.questionDisplay = q
             vm.questionTimeout = -1
-          }, 2000)
+          }, 2500)
         }
       }
     },
@@ -97,7 +100,7 @@
     height: 100%;
     background-color: transparent;
   }
-  .options {
+  .options .option {
     color: #303133;
   }
 </style>
