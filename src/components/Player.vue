@@ -16,14 +16,18 @@
       </div>
       <span v-text="username" class="username"></span>
     </el-card>
+    <el-tag class="ready-right" type="success" v-if="index < 2 && ready && state === 'Avail'">准备</el-tag>
+    <div class="ready-bottom">
+      <el-tag type="success" v-if="index >= 2 && ready && state === 'Avail'">准备</el-tag>
+    </div>
   </div>
 </template>
 <script>
-  import { Card, Popover } from 'element-ui'
+  import { Card, Popover, Tag } from 'element-ui'
   export default {
     data () {
       return {
-        'pinUrl': ['/static/pin1.png', '/static/pin2.png', ' /static/pin3.png', '/static/pin4.png']
+        'pinUrl': ['/static/pin1.png', '/static/pin2.png', '/static/pin3.png', '/static/pin4.png']
       }
     },
     mounted () {
@@ -38,11 +42,14 @@
       'chatPlacement': { type: String, default: 'top' },
       'chatContent': { type: String, default: '' },
       'index': { type: Number, default: 0 },
-      'active': { type: Boolean, default: false }
+      'active': { type: Boolean, default: false },
+      'ready': { type: Boolean, default: false },
+      'state': { type: String, default: '' }
     },
     components: {
       'el-card': Card,
-      'el-popover': Popover
+      'el-popover': Popover,
+      'el-tag': Tag
     }
   }
 </script>
@@ -54,7 +61,8 @@
     align-items: center;
   }
   .avatar img:first-child {
-    width: 50%;
+    width: 40px;
+    height: 40px;
   }
   .username {
     display: inline-block;
@@ -65,6 +73,8 @@
     font-size: 16px;
   }
   .player {
+    position: relative;
+    width: 100px;
     box-shadow: none;
   }
   .pin {
@@ -75,6 +85,18 @@
   }
   .highlight-player {
     animation: highlight 2s linear 0s infinite;
+  }
+  .ready-right {
+    position: absolute;
+    left: 120px;
+    top: 50%;
+    margin-top: -16px;
+  }
+  .ready-bottom {
+    width: 100px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
   }
   @keyframes highlight {
     0% { box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) }

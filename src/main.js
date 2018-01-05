@@ -28,7 +28,11 @@ router.beforeEach((to, from, next) => {
     if (store.state.userinfo.username === '') {
       next(`/login?service=${to.path.substring(1)}`)
     } else if (from.name === 'GameView') {
-      next(false)
+      if (store.state.game.gameState !== 'none') {
+        next(false)
+      } else {
+        next()
+      }
     } else {
       next()
     }

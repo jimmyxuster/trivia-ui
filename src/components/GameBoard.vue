@@ -23,7 +23,10 @@
                 :highlight="indexOfArray(indexOfArray(players, 19 - i), activePlayer).length > 0"></square>
       </el-col>
     </el-row>
-    <dice class="dice" :number="diceNumber"></dice>
+    <dice class="dice" :number="diceNumber" v-if="status === 'playing'" :clickable="clickable" :autogo="diceAutoGo" @stop="diceStop" @start="diceStart"></dice>
+    <div class="ready" v-if="status === 'Avail'">
+      <el-button type="primary" @click="setReady" v-text="isOwner ? '开始' : '准备'" :disabled="isOwner ? !canStart : ready"></el-button>
+    </div>
   </div>
 </template>
 <script>
@@ -38,7 +41,24 @@
     props: {
       'players': { type: Array, default: [] },
       'activePlayer': { type: Number, default: 0 },
-      'diceNumber': { type: Number, default: 1 }
+      'diceNumber': { type: Number, default: 1 },
+      'ready': { type: Boolean, default: false },
+      'status': { type: String, default: 'Avail' },
+      'isOwner': { type: Boolean, default: false },
+      'canStart': { type: Boolean, default: false },
+      'clickable': { type: Boolean, default: false },
+      'diceAutoGo': { type: Boolean, default: false }
+    },
+    methods: {
+      setReady () {
+        this.$emit('setReady')
+      },
+      diceStart () {
+        this.$emit('diceStart')
+      },
+      diceStop () {
+        this.$emit('diceStop')
+      }
     },
     components: {
       Square,
@@ -65,5 +85,15 @@
     top: 50%;
     margin-left: -50px;
     margin-top: -150px;
+  }
+  .ready {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
   }
 </style>

@@ -6,11 +6,12 @@
         <span class="brand">rivia</span>
       </div>
     <div>
-      <transition name="el-zoom-in-top">
+      <transition name="el-zoom-in-top" mode="out-in">
         <ul class="nav" v-if="$route.path !== '/gameview'">
           <router-link tag="li" v-for="tab in tabs" v-text="tab.title" :to="tab.path" :key="tab.index"
                        :class="{'active': currentTab===tab.index}" @click.native="tabChange(tab.index)"></router-link>
         </ul>
+        <span v-text="gameType" v-else></span>
       </transition>
     </div>
     <el-dropdown @command="handleDropdownCommand" class="drop-down">
@@ -66,7 +67,7 @@
       }
     },
     computed: {
-      ...mapGetters(['username', 'gameState'])
+      ...mapGetters(['username', 'gameState', 'gameType'])
     },
     components: {
       ElMenuItem,

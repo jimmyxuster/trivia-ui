@@ -1,6 +1,6 @@
 <template>
   <div class="outer">
-    <div class="group" ref="cube" @click="randomCube(2)">
+    <div class="group" ref="cube" @click="randomCube">
       <div class="page page1">
         <div class="first_face">
           <span class="pip"></span>
@@ -76,22 +76,31 @@
       }
     },
     props: {
-      'number': { type: Number, default: 1 }
+      'number': { type: Number, default: 1 },
+      'clickable': { type: Boolean, default: false },
+      'autogo': { type: Boolean, default: false }
     },
     watch: {
-      number (val) {
-        this.randomCube(val)
+      autogo: function (val) {
+        if (val) {
+          console.log('autogo')
+          this.randomCube()
+        }
       }
     },
     methods: {
-      randomCube (number) {
+      randomCube () {
+        if (!this.clickable && !this.autogo) return
+        this.$emit('start')
+        let vm = this
         let cube = this.$refs.cube
         cube.style.transition = '2s all ease-in-out'
-        cube.style.transform = 'rotatex(' + (this.getRandom(7000, 14000) + this.rotateDegrees.x[number - 1]) +
-          'deg) rotatey(' + (this.getRandom(7000, 14000) + this.rotateDegrees.y[number - 1]) +
+        cube.style.transform = 'rotatex(' + (this.getRandom(7000, 14000) + this.rotateDegrees.x[this.number - 1]) +
+          'deg) rotatey(' + (this.getRandom(7000, 14000) + this.rotateDegrees.y[this.number - 1]) +
           'deg) rotatez(' + this.getRandom(7000, 14000) + 'deg)scale3d(1,1,1)'
         setTimeout(() => {
           cube.style.transition = 'none'
+          vm.$emit('stop')
         }, 2000)
       },
       getRandom (min, max) {
