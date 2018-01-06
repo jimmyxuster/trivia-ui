@@ -205,7 +205,10 @@
             this.players[this.players.indexOf(me)] = this.players[0]
             this.players[0] = me
           }
-          this.players.forEach(p => Vue.set(p, 'active', false))
+          this.players.forEach(p => {
+            Vue.set(p, 'active', false)
+            Vue.set(p, 'chatContent', '')
+          })
         } else if (msg.type === 'ready') {
           this.players.forEach(p => p.isReady = msg.body.indexOf(p.username) >= 0)
         } else if (msg.type === 'startGame') {
@@ -223,7 +226,7 @@
           vm.correctAnswer = msg.body.key
           vm.madeAnswer = msg.body.chosen
           if (vm.correctAnswer === vm.correctAnswer) {
-            vm.activePlayer.coinCount++
+            vm.activePlayer.coinCount = vm.activePlayer.coinCount + 1
           }
           setTimeout(() => {
             vm.questionVisible = false
