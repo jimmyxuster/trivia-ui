@@ -207,7 +207,10 @@
           }
           this.players.forEach(p => {
             Vue.set(p, 'active', false)
-            Vue.set(p, 'chatContent', '')
+            if (p.chatContent === undefined) {
+              Vue.set(p, 'chatContent', '')
+            }
+            Vue.set(p, 'coinCount', 0)
           })
         } else if (msg.type === 'ready') {
           this.players.forEach(p => p.isReady = msg.body.indexOf(p.username) >= 0)
@@ -225,7 +228,7 @@
         } else if (msg.type === 'answer') {
           vm.correctAnswer = msg.body.key
           vm.madeAnswer = msg.body.chosen
-          if (vm.correctAnswer === vm.correctAnswer) {
+          if (vm.madeAnswer === vm.correctAnswer) {
             vm.activePlayer.coinCount = vm.activePlayer.coinCount + 1
           }
           setTimeout(() => {
