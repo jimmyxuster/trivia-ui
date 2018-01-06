@@ -4,19 +4,27 @@
       <span v-text="questionDisplay.description"></span>
       <el-menu @select="selectAnswer" class="options">
         <el-menu-item index="A">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'A' && correctAnswer !== form.answer, 'chosen': answer === 'A'}" v-text="'A：' + questionDisplay.optionA"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'A' && correctAnswer !== form.answer, 'chosen': form.answer === 'A'}" v-text="'A：' + questionDisplay.optionA"></span>
         </el-menu-item>
         <el-menu-item index="B">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'B' && correctAnswer !== form.answer, 'chosen': answer === 'B'}" v-text="'B：' + questionDisplay.optionB"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'B' && correctAnswer !== form.answer, 'chosen': form.answer === 'B'}" v-text="'B：' + questionDisplay.optionB"></span>
         </el-menu-item>
         <el-menu-item index="C">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'C' && correctAnswer !== form.answer, 'chosen': answer === 'C'}" v-text="'C：' + questionDisplay.optionC"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'C' && correctAnswer !== form.answer, 'chosen': form.answer === 'C'}" v-text="'C：' + questionDisplay.optionC"></span>
         </el-menu-item>
         <el-menu-item index="D">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'D' && correctAnswer !== form.answer, 'chosen': answer === 'D'}" v-text="'D：' + questionDisplay.optionD"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'D' && correctAnswer !== form.answer, 'chosen': form.answer === 'D'}" v-text="'D：' + questionDisplay.optionD"></span>
         </el-menu-item>
       </el-menu>
     </el-form>
+    <div class="answer-result">
+      <template v-if="correctAnswer.length > 0 && correctAnswer === form.answer">
+        <i class="el-icon-success"></i><span>回答正确！</span>
+      </template>
+      <template v-else-if="correctAnswer.length > 0 && correctAnswer !== form.answer">
+        <i class="el-icon-error"></i><span>回答错误！</span>
+      </template>
+    </div>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="submit" :disabled="form.answer.length <= 0 || !answerable">确 定</el-button>
     </div>
@@ -53,6 +61,7 @@
         }
         if (!this.questionDisplay || !this.questionDisplay.description) {
           this.questionDisplay = q
+          this.form.answer = ''
         } else {
           let vm = this
           if (vm.questionTimeout >= 0) {
@@ -61,6 +70,7 @@
           vm.questionTimeout = setTimeout(() => {
             vm.questionDisplay = q
             vm.questionTimeout = -1
+            this.form.answer = ''
           }, 2500)
         }
       }
@@ -86,10 +96,10 @@
   }
 </script>
 <style scoped>
-  .correct {
+  .options .correct {
     color: #F56C6C;
   }
-  .chosen {
+  .options .chosen {
     color: #3a8ee6;
   }
   .mask {
@@ -100,7 +110,13 @@
     height: 100%;
     background-color: transparent;
   }
-  .options .option {
+  .option {
     color: #303133;
+  }
+  .answer-result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
   }
 </style>

@@ -5,7 +5,7 @@
       :placement="chatPlacement"
       width="200"
       trigger="manual"
-      :value="chatContent.length > 0"
+      :value="chatVisible"
       :content="chatContent">
     </el-popover>
     <el-card class="player" :class="{'highlight-player': active}" :body-style="{ padding: '10px' }" v-popover:chatbox>
@@ -17,14 +17,14 @@
       <span v-text="username" class="username"></span>
     </el-card>
     <el-tag class="ready-right" type="success" v-if="index < 2 && ready && state === 'Avail'">准备</el-tag>
-    <div class="ready-right" v-if="index < 2 && ready && state === 'playing'">
-      <img src="/static/coin.png" class="coin"><span v-text="coinCount"></span>
+    <div class="ready-right" v-if="index < 2 && state === 'playing'">
+      <img src="/static/coin.png" class="coin"><span class="coin-count" v-text="coinCount"></span>
     </div>
     <div class="ready-bottom">
       <el-tag type="success" v-if="index >= 2 && ready && state === 'Avail'">准备</el-tag>
     </div>
-    <div class="ready-bottom" v-if="index >= 2 && ready && state === 'playing'">
-      <img src="/static/coin.png" class="coin"><span v-text="coinCount"></span>
+    <div class="ready-bottom" v-if="index >= 2 && state === 'playing'">
+      <img src="/static/coin.png" class="coin"><span class="coin-count" v-text="coinCount"></span>
     </div>
   </div>
 </template>
@@ -33,6 +33,8 @@
   export default {
     data () {
       return {
+        chatVisible: false,
+        chatTimeout: 0,
         'pinUrl': ['/static/pin1.png', '/static/pin2.png', '/static/pin3.png', '/static/pin4.png']
       }
     },
@@ -41,6 +43,26 @@
       setTimeout(() => {
         vm.$refs.chatbox.updatePopper()
       }, 100)
+    },
+    watch: {
+      chatContent (val) {
+        if (val && val.length > 0) {
+          if (this.chatTimeout) {
+            clearTimeout(this.chatTimeout)
+          }
+          this.chatVisible = true
+          let vm = this
+          this.chatTimeout = setTimeout(() => {
+            vm.chatVisible = false
+            vm.chatTimeout = 0
+          }, 2000)
+        }
+      }
+    },
+    destroyed () {
+      if (this.chatTimeout) {
+        clearTimeout(this.chatTimeout)
+      }
     },
     props: {
       'avatarUrl': { type: String, default: '' },
@@ -51,7 +73,7 @@
       'active': { type: Boolean, default: false },
       'ready': { type: Boolean, default: false },
       'state': { type: String, default: '' },
-      'coinCount': { type: Number, default: '' }
+      'coinCount': { type: Number, default: 0 }
     },
     components: {
       'el-card': Card,
@@ -94,6 +116,8 @@
     animation: highlight 2s linear 0s infinite;
   }
   .ready-right {
+    display: flex;
+    align-items: center;
     position: absolute;
     left: 120px;
     top: 50%;
@@ -108,6 +132,9 @@
   .coin {
     vertical-align: middle;
     width: 20px;
+  }
+  .coin-count {
+    margin-left: 10px;
   }
   @keyframes highlight {
     0% { box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) }
