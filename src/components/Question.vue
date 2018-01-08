@@ -4,16 +4,16 @@
       <span v-text="questionDisplay.description"></span>
       <el-menu @select="selectAnswer" class="options">
         <el-menu-item index="A">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'A' && correctAnswer !== form.answer, 'chosen': form.answer === 'A'}" v-text="'A：' + questionDisplay.optionA"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'A' && correctAnswer !== form.answer, 'chosen': form.answer === 'A'}" v-if="questionDisplay.optionA" v-text="'A：' + questionDisplay.optionA"></span>
         </el-menu-item>
         <el-menu-item index="B">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'B' && correctAnswer !== form.answer, 'chosen': form.answer === 'B'}" v-text="'B：' + questionDisplay.optionB"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'B' && correctAnswer !== form.answer, 'chosen': form.answer === 'B'}" v-if="questionDisplay.optionB" v-text="'B：' + questionDisplay.optionB"></span>
         </el-menu-item>
         <el-menu-item index="C">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'C' && correctAnswer !== form.answer, 'chosen': form.answer === 'C'}" v-text="'C：' + questionDisplay.optionC"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'C' && correctAnswer !== form.answer, 'chosen': form.answer === 'C'}"  v-if="questionDisplay.optionC" v-text="'C：' + questionDisplay.optionC"></span>
         </el-menu-item>
         <el-menu-item index="D">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'D' && correctAnswer !== form.answer, 'chosen': form.answer === 'D'}" v-text="'D：' + questionDisplay.optionD"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'D' && correctAnswer !== form.answer, 'chosen': form.answer === 'D'}"  v-if="questionDisplay.optionD" v-text="'D：' + questionDisplay.optionD"></span>
         </el-menu-item>
       </el-menu>
     </el-form>

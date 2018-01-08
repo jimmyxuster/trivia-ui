@@ -7,7 +7,7 @@
       </div>
     <div>
       <transition name="el-zoom-in-top" mode="out-in">
-        <ul class="nav" v-if="$route.path !== '/gameview'">
+        <ul class="nav" v-if="$route && $route.path !== '/gameview'">
           <router-link tag="li" v-for="tab in tabs" v-text="tab.title" :to="tab.path" :key="tab.index"
                        :class="{'active': currentTab===tab.index}" @click.native="tabChange(tab.index)"></router-link>
         </ul>
@@ -28,7 +28,6 @@
 </template>
 <script>
   import { Row, Col, Menu, MenuItem, Dropdown, DropdownMenu, DropdownItem, Button } from 'element-ui'
-  import ElMenuItem from 'element-ui/packages/menu/src/menu-item'
   import { mapGetters, mapMutations } from 'vuex'
   import * as mutationTypes from '../store/mutation-types'
   import api from '../service/api'
@@ -43,6 +42,7 @@
         ]
       }
     },
+    created () {},
     methods: {
       ...mapMutations({
         'clearUserinfo': mutationTypes.CLEAR_USERINFO
@@ -54,7 +54,7 @@
         }
       },
       login () {
-        if (this.$route.path !== '/login' && this.username === '') {
+        if (this.$route && this.$route.path !== '/login' && this.username === '') {
           this.$router.replace('/login')
         }
       },
@@ -75,7 +75,6 @@
       ...mapGetters(['username', 'gameState', 'gameType'])
     },
     components: {
-      ElMenuItem,
       'el-row': Row,
       'el-col': Col,
       'el-button': Button,

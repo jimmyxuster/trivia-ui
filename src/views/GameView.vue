@@ -132,6 +132,7 @@
         }
       },
       setReady () {
+        this.ready = true
         this.socketSend({ type: this.canStart ? 'startGame' : 'ready', username: this.username, roomName: this.id })
       },
       diceStart () {
@@ -162,7 +163,6 @@
       },
       socketSend (msg) {
         if (this.socket && this.socket.readyState < WebSocket.CLOSING) {
-          this.ready = true
           this.socket.send(typeof msg === 'object' ? JSON.stringify(msg) : msg)
         } else {
           this.showMessage('网络连接状态异常')
