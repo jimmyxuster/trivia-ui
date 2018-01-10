@@ -7,7 +7,7 @@
       </div>
     <div>
       <transition name="el-zoom-in-top" mode="out-in">
-        <ul class="nav" v-if="$route && $route.path !== '/gameview'">
+        <ul class="nav" v-if="$route.path !== '/gameview'">
           <router-link tag="li" v-for="tab in tabs" v-text="tab.title" :to="tab.path" :key="tab.index"
                        :class="{'active': currentTab===tab.index}" @click.native="tabChange(tab.index)"></router-link>
         </ul>

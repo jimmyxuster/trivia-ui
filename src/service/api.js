@@ -4,7 +4,7 @@ Vue.use(VueResource)
 
 /* eslint-disable */
 
-const HOST = 'http://127.0.0.1:8080'
+const HOST = 'http://106.15.229.43:8080'
 
 Vue.http.interceptors.push((request, next) => {
   request.credentials = true

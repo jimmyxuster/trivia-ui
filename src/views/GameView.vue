@@ -300,7 +300,7 @@
         return
       }
       this.enterGame(this.id)
-      let webSocket = new WebSocket('ws://localhost:8080/websocket')
+      let webSocket = new WebSocket('ws://106.15.229.43:8080/websocket')
       this.setSocket(webSocket)
       let vm = this
 
