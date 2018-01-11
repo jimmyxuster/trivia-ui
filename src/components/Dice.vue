@@ -83,7 +83,6 @@
     watch: {
       autogo: function (val) {
         if (val) {
-          console.log('autogo')
           this.randomCube()
         }
       }
