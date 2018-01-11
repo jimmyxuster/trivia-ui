@@ -20,8 +20,8 @@
     <div class="ready-right" v-if="index < 2 && state === 'playing'">
       <img src="/static/coin.png" class="coin"><span class="coin-count" v-text="coinCount"></span>
     </div>
-    <div class="ready-bottom">
-      <el-tag type="success" v-if="index >= 2 && ready && state === 'Avail'">准备</el-tag>
+    <div class="ready-bottom" v-if="index >= 2 && ready && state === 'Avail'">
+      <el-tag type="success">准备</el-tag>
     </div>
     <div class="ready-bottom" v-if="index >= 2 && state === 'playing'">
       <img src="/static/coin.png" class="coin"><span class="coin-count" v-text="coinCount"></span>

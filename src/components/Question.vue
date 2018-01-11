@@ -1,19 +1,19 @@
 <template>
   <el-dialog title="问题" :visible="visible" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
     <el-form :model="form">
-      <span v-text="questionDisplay.description"></span>
+      <span v-text="questionDisplay ? questionDisplay.description : ''"></span>
       <el-menu @select="selectAnswer" class="options">
         <el-menu-item index="A">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'A' && correctAnswer !== form.answer, 'chosen': form.answer === 'A'}" v-if="questionDisplay.optionA" v-text="'A：' + questionDisplay.optionA"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'A' && correctAnswer !== form.answer, 'chosen': form.answer === 'A'}" v-if="questionDisplay && questionDisplay.optionA" v-text="'A：' + questionDisplay.optionA"></span>
         </el-menu-item>
         <el-menu-item index="B">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'B' && correctAnswer !== form.answer, 'chosen': form.answer === 'B'}" v-if="questionDisplay.optionB" v-text="'B：' + questionDisplay.optionB"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'B' && correctAnswer !== form.answer, 'chosen': form.answer === 'B'}" v-if="questionDisplay && questionDisplay.optionB" v-text="'B：' + questionDisplay.optionB"></span>
         </el-menu-item>
         <el-menu-item index="C">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'C' && correctAnswer !== form.answer, 'chosen': form.answer === 'C'}"  v-if="questionDisplay.optionC" v-text="'C：' + questionDisplay.optionC"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'C' && correctAnswer !== form.answer, 'chosen': form.answer === 'C'}"  v-if="questionDisplay && questionDisplay.optionC" v-text="'C：' + questionDisplay.optionC"></span>
         </el-menu-item>
         <el-menu-item index="D">
-          <span slot="title" class="option" :class="{'correct': correctAnswer === 'D' && correctAnswer !== form.answer, 'chosen': form.answer === 'D'}"  v-if="questionDisplay.optionD" v-text="'D：' + questionDisplay.optionD"></span>
+          <span slot="title" class="option" :class="{'correct': correctAnswer === 'D' && correctAnswer !== form.answer, 'chosen': form.answer === 'D'}"  v-if="questionDisplay && questionDisplay.optionD" v-text="'D：' + questionDisplay.optionD"></span>
         </el-menu-item>
       </el-menu>
     </el-form>
@@ -32,7 +32,7 @@
   </el-dialog>
 </template>
 <script>
-  import { Dialog, Menu, MenuItem } from 'element-ui'
+  import { Dialog, Menu, MenuItem, Form, Button } from 'element-ui'
   export default {
     name: 'question',
     data () {
@@ -40,12 +40,18 @@
         form: {
           answer: ''
         },
-        questionDisplay: {},
+        questionDisplay: {
+          description: '',
+          optionA: '',
+          optionB: '',
+          optionC: '',
+          optionD: ''
+        },
         questionTimeout: -1
       }
     },
     props: {
-      'question': { type: Object, default: {} },
+      'question': { type: Object, default: () => ({}) },
       'visible': { type: Boolean, default: false },
       'answerable': { type: Boolean, default: false },
       'answer': { type: String, default: '' },
@@ -59,7 +65,7 @@
         if (!q) {
           q = {}
         }
-        if (!this.questionDisplay || !this.questionDisplay.description) {
+        if (!this.questionDisplay || !this.questionDisplay.description || this.questionDisplay.description.length <= 0) {
           this.questionDisplay = q
           this.form.answer = ''
         } else {
@@ -85,13 +91,17 @@
         this.form.answer = index
       },
       submit () {
-        this.$emit('answer', this.form.answer)
+        if (this.form.answer) {
+          this.$emit('answer', this.form.answer)
+        }
       }
     },
     components: {
       'el-dialog': Dialog,
       'el-menu': Menu,
-      'el-menu-item': MenuItem
+      'el-menu-item': MenuItem,
+      'el-form': Form,
+      'el-button': Button
     }
   }
 </script>

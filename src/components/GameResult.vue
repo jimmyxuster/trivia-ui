@@ -11,6 +11,7 @@
   </el-dialog>
 </template>
 <script>
+  import { Dialog, Button } from 'element-ui'
   export default {
     name: 'game-result',
     data () {
@@ -24,6 +25,10 @@
       quit () {
         this.$emit('quit')
       }
+    },
+    components: {
+      'el-dialog': Dialog,
+      'el-button': Button
     }
   }
 </script>
