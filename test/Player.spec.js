@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { mount, createLocalVue } from 'vue-test-utils'
 import Player from '@/components/Player.vue'
+import { Popover } from 'element-ui'
 
 const localVue = createLocalVue()
 
@@ -49,5 +50,16 @@ describe('Player.vue', () => {
     const readyTag = wrapper.find('.ready-right')
     expect(coinTag.text()).toBe('5')
     expect(readyTag.text()).not.toBe('准备')
+  })
+
+  it('chatContent变化', () => {
+    jest.useFakeTimers()
+    wrapper.setData({ chatTimeout: 1 })
+    wrapper.setProps({ chatContent: '' })
+    wrapper.setProps({ chatContent: 'first' })
+    expect(wrapper.vm.chatVisible).toBe(true)
+    expect(wrapper.find(Popover).vm.content).toBe('first')
+    jest.runAllTimers()
+    expect(wrapper.vm.chatTimeout).toBe(0)
   })
 })

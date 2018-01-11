@@ -175,7 +175,8 @@ describe('Dice.vue', () => {
 
   it('非玩家行动时，点击骰子不能触发旋转', () => {
     wrapper.setProps({
-      'clickable': false
+      'clickable': false,
+      'autogo': false
     })
     wrapper.setMethods({
       getRandom: jest.fn()

@@ -1,14 +1,18 @@
 /* eslint-disable */
 import { mount, createLocalVue } from 'vue-test-utils'
 import TopBar from '@/components/TopBar.vue'
+import mockApi from '../src/service/api'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
+import { Dropdown } from 'element-ui'
 
 const localVue = createLocalVue()
 localVue.use(VueRouter)
 localVue.use(Vuex)
 
 const router = new VueRouter()
+
+jest.mock('../src/service/api')
 
 describe('TopBar.vue', () => {
   let actions
@@ -42,6 +46,12 @@ describe('TopBar.vue', () => {
       roomName: () => 0
     }
 
+    mutations = {
+      'CLEAR_USERINFO' () {
+        state.module.username = ''
+      }
+    }
+
     actions = {
       quitGame: jest.fn(),
       setSocket: jest.fn()
@@ -50,7 +60,8 @@ describe('TopBar.vue', () => {
     store = new Vuex.Store({
       state,
       actions,
-      getters
+      getters,
+      mutations
     })
   })
 
@@ -90,5 +101,27 @@ describe('TopBar.vue', () => {
     meTab.trigger('click')
     expect(gameTab.classes()).not.toContain('active')
     expect(meTab.classes()).toContain('active')
+  })
+
+  it('点击登录按钮跳转登录', () => {
+    const wrapper = mount(TopBar, { store, router, localVue })
+    const loginButton = wrapper.find('button')
+    loginButton.trigger('click')
+    expect(wrapper.vm.$route.path).toBe('/login')
+  })
+
+  it('下拉菜单点击注册跳转注册', () => {
+    const wrapper = mount(TopBar, { store, router, localVue })
+    const trigger = wrapper.find(Dropdown)
+    trigger.vm.$emit('command', 'r')
+    expect(wrapper.vm.$route.path).toBe('/register')
+  })
+
+  it('下拉菜单点击登出调用登出接口', () => {
+    const wrapper = mount(TopBar, { store, router, localVue })
+    const trigger = wrapper.find(Dropdown)
+    wrapper.setData({ username: 'test' })
+    trigger.vm.$emit('command', 'l')
+    expect(mockApi.logout).toBeCalled()
   })
 })

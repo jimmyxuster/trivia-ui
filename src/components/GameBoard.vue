@@ -30,7 +30,7 @@
   </div>
 </template>
 <script>
-  import { Row, Col } from 'element-ui'
+  import { Row, Col, Button } from 'element-ui'
   import Square from '../components/Square'
   import Dice from '../components/Dice'
   export default {
@@ -39,7 +39,7 @@
       return {}
     },
     props: {
-      'players': { type: Array, default: [] },
+      'players': { type: Array, default: () => [] },
       'activePlayer': { type: Number, default: 0 },
       'diceNumber': { type: Number, default: 1 },
       'ready': { type: Boolean, default: false },
@@ -64,6 +64,7 @@
       Square,
       'el-row': Row,
       'el-col': Col,
+      'el-button': Button,
       Dice
     }
   }
