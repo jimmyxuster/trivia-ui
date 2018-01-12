@@ -147,7 +147,7 @@
         this.diceAutoGo = false
         let goPlayer = this.players.find(p => p.active)
         if (!goPlayer) return
-        if (this.question) {
+        if (this.question.description) {
           this.movePlayer(this.players.indexOf(goPlayer), goPlayer.position + this.diceNumber)
         } else {
           this.showMessage('玩家 ' + this.activePlayer.username + ' 被关禁闭', 'warning')
